@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function Login({ setIsAuth }) {
+function Login({ setIsAuth, setApiPath, apiPath }) {
   const [formData, setFormData] = useState({
     username: "example@test.com",
     password: "example",
@@ -61,7 +61,7 @@ function Login({ setIsAuth }) {
                 />
                 <label htmlFor="username">Email address</label>
               </div>
-              <div className="form-floating">
+              <div className="form-floating mb-3">
                 <input
                   type="password"
                   className="form-control"
@@ -73,6 +73,19 @@ function Login({ setIsAuth }) {
                   required
                 />
                 <label htmlFor="password">Password</label>
+              </div>
+              <div className="form-floating">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="apiPath"
+                  name="apiPath"
+                  value={apiPath}
+                  onChange={(e) => {
+                    setApiPath(e.target.value);
+                  }}
+                />
+                <label htmlFor="apiPath">ApiPath</label>
               </div>
               <button
                 className="btn btn-lg btn-primary w-100 mt-3"

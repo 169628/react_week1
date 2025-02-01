@@ -7,13 +7,18 @@ import Login from "./components/Login";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
+  const [apiPath, setApiPath] = useState("");
 
   return (
     <>
       {isAuth ? (
-        <Product setIsAuth={setIsAuth} />
+        <Product setIsAuth={setIsAuth} apiPath={apiPath} />
       ) : (
-        <Login setIsAuth={setIsAuth} />
+        <Login
+          setIsAuth={setIsAuth}
+          setApiPath={setApiPath}
+          apiPath={apiPath}
+        />
       )}
     </>
   );
