@@ -7,6 +7,8 @@ function LoginPage({ setIsAuth, setApiPath, apiPath }) {
     password: "example",
   });
 
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -17,10 +19,7 @@ function LoginPage({ setIsAuth, setApiPath, apiPath }) {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const result = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/v2/admin/signin`,
-        formData
-      );
+      const result = await axios.post(`${BASE_URL}/v2/admin/signin`, formData);
       if (result.data.success) {
         document.cookie = `hexToken=${result.data.token}; expires=${result.data.expired}`;
         axios.defaults.headers.common["Authorization"] = result.data.token;

@@ -13,6 +13,7 @@ function ProductModal({
   setModalIsOpen,
 }) {
   const productModalRef = useRef(null);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     if (modalIsOpen) {
@@ -41,7 +42,7 @@ function ProductModal({
       const formData = new FormData();
       formData.append("file-to-upload", file);
       const result = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/v2/api/${path}/admin/upload`,
+        `${BASE_URL}/v2/api/${path}/admin/upload`,
         formData
       );
       if (result.data.success) {
@@ -88,7 +89,7 @@ function ProductModal({
   const createProduct = async () => {
     try {
       const result = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/v2/api/${path}/admin/product`,
+        `${BASE_URL}/v2/api/${path}/admin/product`,
         {
           data: {
             ...modalProduct,
@@ -116,9 +117,7 @@ function ProductModal({
   const editProduct = async () => {
     try {
       const result = await axios.put(
-        `${import.meta.env.VITE_BASE_URL}/v2/api/${path}/admin/product/${
-          modalProduct.id
-        }`,
+        `${BASE_URL}/v2/api/${path}/admin/product/${modalProduct.id}`,
         {
           data: {
             ...modalProduct,

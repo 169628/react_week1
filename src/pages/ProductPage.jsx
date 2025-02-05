@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Modal } from "bootstrap";
 
 import Pagination from "../components/Pagination";
 import ProductModal from "../components/ProductModal";
@@ -25,15 +24,13 @@ function ProductPage({ setIsAuth, apiPath }) {
   };
   const [page, setPage] = useState({});
   const [modalProduct, setModalProduct] = useState(defaultProduct);
-  const [deleteProduct, setDeleteProduct] = useState({});
-  const _apiPath = apiPath || import.meta.env.VITE_API_PATH;
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const API_PATH = apiPath || import.meta.env.VITE_API_PATH;
 
   // 開頭 render 相關
   const checkLogin = async () => {
     try {
-      const result = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/v2/api/user/check`
-      );
+      const result = await axios.post(`${BASE_URL}/v2/api/user/check`);
       if (!result.data.success) {
         alert("請重新登入");
         setIsAuth(false);
@@ -47,9 +44,7 @@ function ProductPage({ setIsAuth, apiPath }) {
   const getProducts = async (page) => {
     try {
       const result = await axios.get(
-        `${
-          import.meta.env.VITE_BASE_URL
-        }/v2/api/${_apiPath}/admin/products?page=${page || 1}`
+        `${BASE_URL}/v2/api/${API_PATH}/admin/products?page=${page || 1}`
       );
       const { products, success, pagination } = result.data;
       if (success) {
@@ -86,7 +81,7 @@ function ProductPage({ setIsAuth, apiPath }) {
   const openDeleteModal = (productId) => {
     products.forEach((i) => {
       if (i.id == productId) {
-        setDeleteProduct(i);
+        setModalProduct(i);
       }
     });
     setRemoveIsOpen(true);
@@ -168,7 +163,7 @@ function ProductPage({ setIsAuth, apiPath }) {
         mode={mode}
         modalProduct={modalProduct}
         setModalProduct={setModalProduct}
-        path={_apiPath}
+        path={API_PATH}
         getProducts={getProducts}
         defaultProduct={defaultProduct}
         modalIsOpen={modalIsOpen}
@@ -178,10 +173,11 @@ function ProductPage({ setIsAuth, apiPath }) {
       <RemoveModal
         removeIsOpen={removeIsOpen}
         setRemoveIsOpen={setRemoveIsOpen}
-        deleteProduct={deleteProduct}
-        setDeleteProduct={setDeleteProduct}
+        deleteProduct={modalProduct}
+        setDeleteProduct={setModalProduct}
+        defaultProduct={defaultProduct}
         getProducts={getProducts}
-        path={_apiPath}
+        path={API_PATH}
       />
     </>
   );

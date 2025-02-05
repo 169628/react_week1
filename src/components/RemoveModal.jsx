@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import axios from "axios";
 import { Modal } from "bootstrap";
 
@@ -7,10 +7,12 @@ function RemoveModal({
   setRemoveIsOpen,
   deleteProduct,
   setDeleteProduct,
+  defaultProduct,
   getProducts,
   path,
 }) {
   const deleteModalRef = useRef(null);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const closeDeleteModal = () => {
     setRemoveIsOpen(false);
@@ -20,20 +22,18 @@ function RemoveModal({
   const deleteModalHandler = async () => {
     try {
       const result = await axios.delete(
-        `${import.meta.env.VITE_BASE_URL}/v2/api/${path}/admin/product/${
-          deleteProduct.id
-        }`
+        `${BASE_URL}/v2/api/${path}/admin/product/${deleteProduct.id}`
       );
       if (result.data.success) {
         alert(result.data.message);
-        setDeleteProduct({});
+        setDeleteProduct(defaultProduct);
         getProducts();
         closeDeleteModal();
       }
     } catch (error) {
       console.log(error);
       alert("刪除失敗");
-      setDeleteProduct({});
+      setDeleteProduct(defaultProduct);
       getProducts();
       closeDeleteModal();
     }
