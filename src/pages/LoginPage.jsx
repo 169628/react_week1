@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function Login({ setIsAuth, setApiPath, apiPath }) {
+function LoginPage({ setIsAuth, setApiPath, apiPath }) {
   const [formData, setFormData] = useState({
     username: "example@test.com",
     password: "example",
@@ -101,4 +101,4 @@ function Login({ setIsAuth, setApiPath, apiPath }) {
   );
 }
 
-export default Login;
+export default LoginPage;
